@@ -33,7 +33,7 @@ lib:
 	@echo Building libwiringPi.so/libwiringPi.a
 	@ $(MAKE) -C lib
 	
-main:	main.o
+main:	$(OBJ)
 	$Q echo [link]
 	$Q $(CC) -o $@ buttons.o $(LDFLAGS) $(LDLIBS)
 

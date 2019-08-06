@@ -6,7 +6,7 @@ architectures:
 version: '0.1'
 summary: Автоматизация полистирольной линии
 description: |
-  Програмное обеспечение для автоматизации лини по производству полистирола из гранул полистирола.
+  Программное обеспечение для автоматизации лини по производству полистирола из гранул полистирола.
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
