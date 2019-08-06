@@ -12,11 +12,12 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
   polystyrol:
-    command: $SNAP/usr/bin/corebird
+    command: /usr/local/sbin/polystyrol
+    # command: $SNAP/usr/bin/corebird
 
 parts:
   polystyrol:
     plugin: make
-    makefile: all
-    source: ../
+    makefile: Makefile
+    source: .
     make-parameters: ["debug=1"]

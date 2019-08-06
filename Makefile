@@ -5,6 +5,9 @@
 #	Copyright (c) 2013 Gordon Henderson
 #################################################################################
 
+DESTDIR?=/usr
+PREFIX?=/local
+
 ifneq ($V,1)
 Q ?= @
 endif
@@ -28,12 +31,9 @@ LDLIBS    = -lwiringPi -lpthread -lm -lcrypt
 SRC_DIR = ./src
 
 SRCS = $(wildcard $(SRC_DIR)/*.c)
-# SRC	=	./src/polystyrol.c
 
 OBJECTS+=$(patsubst %.c,%.o,$(SRCS))
-# OBJ	=	$(SRC:.c=.o)
 
-# BINS	=	$(SRC:.c=)
 BINS	=	polystyrol
 
 all: $(BINS)
@@ -51,6 +51,13 @@ $(BINS):	$(OBJECTS)
 clean:
 	$Q echo [Clean]
 	$Q rm -f $(OBJ) *~ core tags $(BINS)
+
+.PHONY:	install
+install: polystyrol
+	$Q echo "[Install]"
+	$Q mkdir -p			$(DESTDIR)$(PREFIX)/sbin
+	$Q cp polystyrol	$(DESTDIR)$(PREFIX)/sbin
+	$Q chown root.root	$(DESTDIR)$(PREFIX)/sbin/polystyrol
 
 tags:	$(SRC)
 	$Q echo [ctags]
