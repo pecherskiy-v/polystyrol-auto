@@ -55,9 +55,8 @@ clean:
 .PHONY:	install
 install: polystyrol
 	$Q echo "[Install]"
-	$Q mkdir -p			$(DESTDIR)$(PREFIX)/sbin
-	$Q cp polystyrol	$(DESTDIR)$(PREFIX)/sbin
-	$Q chown root.root	$(DESTDIR)$(PREFIX)/sbin/polystyrol
+	$Q cp polystyrol	$(DESTDIR)
+	$Q chown root.root	$(DESTDIR)/polystyrol
 
 tags:	$(SRC)
 	$Q echo [ctags]

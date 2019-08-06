@@ -12,8 +12,8 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
   polystyrol:
-    command: /usr/local/sbin/polystyrol
-    # command: $SNAP/usr/bin/corebird
+    command: $SNAP/polystyrol
+    # command: /usr/local/sbin/polystyrol
 
 parts:
   polystyrol:
@@ -21,4 +21,4 @@ parts:
     makefile: Makefile
     source: .
     make-parameters: ["debug=1"]
-    
+
