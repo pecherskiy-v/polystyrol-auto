@@ -12,7 +12,7 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
   polystyrol:
-    command: $SNAP/polystyrol
+    command: /build/polystyrol-auto/parts/polystyrol/install/polystyrol
     # command: /usr/local/sbin/polystyrol
 
 parts:
