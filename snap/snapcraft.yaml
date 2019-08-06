@@ -17,6 +17,7 @@ apps:
 parts:
   polystyrol:
     plugin: make
-    source: .
+    makefile: Makefile
+    source: ..
     source-subdir: src
-    make-parameters: ["debud=1"]
+    make-parameters: ["debug=1"]
