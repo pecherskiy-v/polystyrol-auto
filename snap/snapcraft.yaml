@@ -1,9 +1,9 @@
 name: polystyrol-auto
 base: core18
 architectures:
-  - build-on: arm64
-    run-on: [arm64]
-version: '0.1'
+  - build-on: [arm64,armhf]
+    run-on: [arm64,armhf]
+version: '0.1.1'
 summary: Автоматизация полистирольной линии
 description: |
   Программное обеспечение для автоматизации лини по производству полистирола из гранул полистирола.
