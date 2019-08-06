@@ -21,3 +21,4 @@ parts:
     makefile: Makefile
     source: .
     make-parameters: ["debug=1"]
+    
