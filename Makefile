@@ -12,30 +12,37 @@ endif
 #DEBUG	= -g -O0
 DEBUG	= -O3
 CC	= gcc
-INCLUDE	= -I./include
+INCLUDE+= -I.
+INCLUDE+= -I./src
+INCLUDE+= -I./include
+INCLUDE+= -I/usr/local/include
 CFLAGS	= $(DEBUG) -Wall $(INCLUDE) -Winline -pipe
 
 LDFLAGS	= -L./lib
-LDLIBS    = -lwiringPi -lwiringPiDev -lpthread -lm
+LDFLAGS+= -L/usr/local/lib
+LDLIBS    = -lwiringPi -lpthread -lm -lcrypt
 
 # Should not alter anything below this line
 ###############################################################################
 
-SRC	=	main.c
+SRC_DIR = ./src
 
-OBJ	=	$(SRC:.c=.o)
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+# SRC	=	./src/polystyrol.c
 
-BINS	=	$(SRC:.c=)
+OBJECTS+=$(patsubst %.c,%.o,$(SRCS))
+# OBJ	=	$(SRC:.c=.o)
 
-all: lib $(BINS)
+# BINS	=	$(SRC:.c=)
+BINS	=	polystyrol
 
-lib:
+all: $(BINS)
+
+$(BINS):	$(OBJECTS)
 	@echo Building libwiringPi.so/libwiringPi.a
 	@ $(MAKE) -C lib
-	
-main:	$(OBJ)
 	$Q echo [link]
-	$Q $(CC) -o $@ buttons.o $(LDFLAGS) $(LDLIBS)
+	$Q $(CC) -o $@ $(OBJECTS) $(LDFLAGS) $(LDLIBS)
 
 .c.o:
 	$Q echo [CC] $<
