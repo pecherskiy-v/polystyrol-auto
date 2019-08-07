@@ -26,13 +26,16 @@
 #include <stdio.h>
 #include <wiringPi.h>
 
-// LED Pin - wiringPi pin 0 is BCM_GPIO 17.
+// LED Pin - wiringPi pin 29 is name = GPIO_29 | piname BCM_GPIO 21 | physical 40.
+#define	LED_BLINC	29
 
-#define	LED	0
+// LED Pin - wiringPi pin 28 is name = GPIO_28 | piname BCM_GPIO 20 | physical 38.
+#define	LED_BUT	28
 
-// Array to keep track of our LEDs
+// LED Pin - wiringPi pin 7 is name = GPIO_07 | piname BCM_GPIO 4 | physical 7.
+#define BUTTOMM 7
 
-int leds [] = { 0, 0, 0 } ;
+int leds [28] = { 0 } ;
 
 // scanButton:
 //	See if a button is pushed, if so, then flip that LED and
@@ -43,8 +46,8 @@ void scanButton (int button)
   if (digitalRead (button) == HIGH)	// Low is pushed
     return ;
 
-  leds [button] ^= 1 ; // Invert state
-  digitalWrite (4 + button, leds [button]) ;
+  leds [LED_BUT] ^= 1 ; // Invert state
+  digitalWrite (4 + button, leds [LED_BUT]) ;
 
   while (digitalRead (button) == LOW)	// Wait for release
     delay (10) ;
@@ -59,37 +62,26 @@ int main (void)
 
   wiringPiSetup () ;
 
-  pinMode (LED, OUTPUT) ;
+  // Setup the outputs:
+  // Pins 40, 38 output:
+  pinMode (LED_BLINC, OUTPUT) ;
+  digitalWrite (LED_BLINC, 0) ;
+  pinMode (LED_BUT, OUTPUT) ;
+  digitalWrite (LED_BUT, 0) ;
 
-// Setup the outputs:
-//	Pins 3, 4, 5, 6 and 7 output:
-//	We're not using 3 or 4, but make sure they're off anyway
-//	(Using same hardware config as blink12.c)
-
-  for (i = 3 ; i < 8 ; ++i)
-  {
-    pinMode      (i, OUTPUT) ;
-    digitalWrite (i, 0) ;
-  }
-
-// Setup the inputs
-
-  for (i = 1 ; i < 3 ; ++i)
-  {
-    pinMode         (i, INPUT) ;
-    pullUpDnControl (i, PUD_UP) ;
-    leds [i] = 0 ;
-  }
+  // Setup the inputs
+  pinMode         (i, INPUT) ;
+  pullUpDnControl (i, PUD_UP) ;
+  leds [LED_BUT] = 0 ;
 
   for (;;)
   {
-    for (i = 0 ; i < 3 ; ++i)
-      scanButton (i) ;
+    scanButton (BUTTOMM) ;
     delay (1) ;
 
-    digitalWrite (LED, HIGH) ;	// On
+    digitalWrite (LED_BLINC, HIGH) ;	// On
     delay (500) ;		// mS
-    digitalWrite (LED, LOW) ;	// Off
+    digitalWrite (LED_BLINC, LOW) ;	// Off
     delay (500) ;
 
   }
