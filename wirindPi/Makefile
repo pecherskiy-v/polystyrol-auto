@@ -90,6 +90,13 @@ clean:
 	$Q echo "[Clean]"
 	$Q rm -f $(OBJ) $(OBJ_I2C) *~ core tags Makefile.bak libwiringPi.*
 
+.PHONY:	install
+install: wiringpid
+	$Q echo "[Install]"
+	$Q mkdir -p		$(DESTDIR)/sbin
+	$Q cp wiringpid		$(DESTDIR)/sbin
+	$Q chown root.root	$(DESTDIR)/sbin/wiringpid
+
 .PHONY:	tags
 tags:	$(SRC)
 	$Q echo [ctags]

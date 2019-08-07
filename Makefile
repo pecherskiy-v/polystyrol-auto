@@ -39,8 +39,6 @@ BINS	=	polystyrol
 all: $(BINS)
 
 $(BINS):	$(OBJECTS)
-	@echo Building libwiringPi.so/libwiringPi.a
-	@ $(MAKE) -C lib
 	$Q echo [link]
 	$Q $(CC) -o $@ $(OBJECTS) $(LDFLAGS) $(LDLIBS)
 
