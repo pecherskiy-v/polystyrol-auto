@@ -22,6 +22,7 @@ INCLUDE+= -I/usr/local/include
 CFLAGS	= $(DEBUG) -Wall $(INCLUDE) -Winline -pipe
 
 LDFLAGS	= -L./lib
+LDFLAGS	= -L./wiringPi
 LDFLAGS+= -L/usr/local/lib
 LDLIBS    = -lwiringPi -lpthread -lm -lcrypt
 
@@ -52,7 +53,7 @@ clean:
 
 .PHONY:	install
 install: polystyrol
-	$Q echo "[Install]"
+	$Q echo "[Install polystyrol]"
 	$Q cp polystyrol	$(DESTDIR)
 	$Q chown root.root	$(DESTDIR)/polystyrol
 

@@ -12,7 +12,8 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
   polystyrol:
-    command: /build/polystyrol-auto/parts/polystyrol/install/polystyrol
+    command: echo 'ok'
+    command: polystyrol
     # command: /usr/local/sbin/polystyrol
 
 parts:
@@ -21,10 +22,11 @@ parts:
     makefile: Makefile
     source: .
     make-parameters: ["debug=1"]
-    after: wiringPi
+    after: [wiringpi]
 
-  wiringPi:
+  wiringpi:
     plugin: make
     makefile: Makefile
-    source: ./wiringPi
-
+    make-parameters: [DESTDIR=/usr]
+    source: .
+    source-subdir: wiringPi

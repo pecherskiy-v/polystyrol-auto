@@ -72,10 +72,6 @@ OBJ	=	$(SRC:.c=.o)
 
 all:		$(DYNAMIC)
 
-.PHONY:	static
-static:	
-		$Q cat noMoreStatic
-
 $(DYNAMIC):	$(OBJ)
 	$Q echo "[Link (Dynamic)]"
 	$Q $(CC) -shared -Wl,-soname,libwiringPi.so$(WIRINGPI_SONAME_SUFFIX) -o libwiringPi.so $(OBJ) $(LDFLAGS) $(LIBS)
@@ -91,11 +87,25 @@ clean:
 	$Q rm -f $(OBJ) $(OBJ_I2C) *~ core tags Makefile.bak libwiringPi.*
 
 .PHONY:	install
-install: wiringpid
-	$Q echo "[Install]"
-	$Q mkdir -p		$(DESTDIR)/sbin
-	$Q cp wiringpid		$(DESTDIR)/sbin
-	$Q chown root.root	$(DESTDIR)/sbin/wiringpid
+install:	$(DYNAMIC)
+	# $Q echo "[Install $(DYNAMIC)]"
+	$Q echo "[Install Dynamic Lib]"
+	$Q install -m 0755 -d /usr$(PREFIX)/lib
+	$Q install -m 0755 libwiringPi.so			/usr$(PREFIX)/lib/libwiringPi.so
+
+	# $Q cp libwiringPi.so	/usr/$(PREFIX)/lib
+	# $Q chown root.root	$(DESTDIR)$(PREFIX)/libwiringPi.so
+
+# .PHONY:	install
+# install:	$(DYNAMIC)
+# 	$Q echo "[Install Headers]"
+# 	$Q install -m 0755 -d						$(DESTDIR)$(PREFIX)/include
+# 	$Q install -m 0644 $(HEADERS)					$(DESTDIR)$(PREFIX)/include
+# 	$Q echo "[Install Dynamic Lib]"
+# 	$Q install -m 0755 -d						$(DESTDIR)$(PREFIX)/lib
+# 	$Q install -m 0755 libwiringPi.so.$(VERSION)			$(DESTDIR)$(PREFIX)/lib/libwiringPi.so.$(VERSION)
+# 	$Q ln -sf $(DESTDIR)$(PREFIX)/lib/libwiringPi.so.$(VERSION)	$(DESTDIR)/lib/libwiringPi.so
+# 	$Q $(LDCONFIG)
 
 .PHONY:	tags
 tags:	$(SRC)
