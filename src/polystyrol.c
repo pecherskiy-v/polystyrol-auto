@@ -26,6 +26,10 @@
 #include <stdio.h>
 #include <wiringPi.h>
 
+// LED Pin - wiringPi pin 0 is BCM_GPIO 17.
+
+#define	LED	0
+
 // Array to keep track of our LEDs
 
 int leds [] = { 0, 0, 0 } ;
@@ -51,8 +55,11 @@ int main (void)
   int i ;
 
   printf ("Raspberry Pi Gertboard Button Test\n") ;
+  printf ("Raspberry Pi blink\n") ;
 
   wiringPiSetup () ;
+
+  pinMode (LED, OUTPUT) ;
 
 // Setup the outputs:
 //	Pins 3, 4, 5, 6 and 7 output:
@@ -67,7 +74,7 @@ int main (void)
 
 // Setup the inputs
 
-  for (i = 0 ; i < 3 ; ++i)
+  for (i = 1 ; i < 3 ; ++i)
   {
     pinMode         (i, INPUT) ;
     pullUpDnControl (i, PUD_UP) ;
@@ -79,5 +86,11 @@ int main (void)
     for (i = 0 ; i < 3 ; ++i)
       scanButton (i) ;
     delay (1) ;
+
+    digitalWrite (LED, HIGH) ;	// On
+    delay (500) ;		// mS
+    digitalWrite (LED, LOW) ;	// Off
+    delay (500) ;
+
   }
 }
