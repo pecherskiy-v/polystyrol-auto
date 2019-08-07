@@ -32,20 +32,43 @@ Q ?= @
 endif
 
 STATIC=libwiringPi.a
-DYNAMIC=libwiringPi.so
+# DYNAMIC=libwiringPi.so
+DYNAMIC=$(STATIC)
 
 #DEBUG	= -g -O0
 DEBUG	= -O2
-CC	= gcc
+CC		= gcc
+AR      = ar
 INCLUDE+= -I.
 INCLUDE+= -I../include
 INCLUDE+= -I/usr/local/include
-DEFS	= -D_GNU_SOURCE
-CFLAGS	= $(DEBUG) $(DEFS) -Wformat=2 -Wall -Wextra -Winline $(INCLUDE) -pipe -fPIC
-#CFLAGS	= $(DEBUG) $(DEFS) -Wformat=2 -Wall -Wextra -Wconversion -Winline $(INCLUDE) -pipe -fPIC
+# DEFS	= -D_GNU_SOURCE
+C_FLAGS += -std=gnu11
+C_FLAGS += -c
+C_FLAGS += -Wall
+C_FLAGS += -Wextra
+C_FLAGS += -Wno-unused-parameter
+C_FLAGS += -Wno-missing-field-initializers
+C_FLAGS += -fmessage-length=0
+C_FLAGS += -fno-exceptions
+C_FLAGS += -ffunction-sections
+C_FLAGS += -fdata-sections
+C_FLAGS += -funsigned-char
+C_FLAGS += -MMD
+C_FLAGS += -fno-delete-null-pointer-checks
+C_FLAGS += -fomit-frame-pointer
+C_FLAGS += -Os
+C_FLAGS += -g1
+C_FLAGS += -lm -fopenmp
+# C_FLAGS += -mthumb
+
+CFLAGS	= $(DEBUG) $(INCLUDE) $(C_FLAGS)
+
+# CFLAGS	= $(DEBUG) $(DEFS) -Wformat=2 -Wall -Wextra -Winline $(INCLUDE) -pipe -fPIC
+# CFLAGS	= $(DEBUG) $(DEFS) -Wformat=2 -Wall -Wextra -Wconversion -Winline $(INCLUDE) -pipe -fPIC
 
 LDFLAGS	= -L/usr/local/lib
-LIBS    = -lm -lpthread -lrt
+LIBS    = -lm -lpthread -lrt -lcrypt
 
 ###############################################################################
 
@@ -74,7 +97,8 @@ all:		$(DYNAMIC)
 
 $(DYNAMIC):	$(OBJ)
 	$Q echo "[Link (Dynamic)]"
-	$Q $(CC) -shared -Wl,-soname,libwiringPi.so$(WIRINGPI_SONAME_SUFFIX) -o libwiringPi.so $(OBJ) $(LDFLAGS) $(LIBS)
+	# $(CC) -o $@ $(OBJ) $(LDFLAGS) $(LIBS)
+	$(AR) -rc $@ $?
 
 .c.o:
 	$Q echo [Compile] $<
@@ -85,27 +109,6 @@ $(DYNAMIC):	$(OBJ)
 clean:
 	$Q echo "[Clean]"
 	$Q rm -f $(OBJ) $(OBJ_I2C) *~ core tags Makefile.bak libwiringPi.*
-
-.PHONY:	install
-install:	$(DYNAMIC)
-	# $Q echo "[Install $(DYNAMIC)]"
-	$Q echo "[Install Dynamic Lib]"
-	$Q install -m 0755 -d /usr$(PREFIX)/lib
-	$Q install -m 0755 libwiringPi.so			/usr$(PREFIX)/lib/libwiringPi.so
-
-	# $Q cp libwiringPi.so	/usr/$(PREFIX)/lib
-	# $Q chown root.root	$(DESTDIR)$(PREFIX)/libwiringPi.so
-
-# .PHONY:	install
-# install:	$(DYNAMIC)
-# 	$Q echo "[Install Headers]"
-# 	$Q install -m 0755 -d						$(DESTDIR)$(PREFIX)/include
-# 	$Q install -m 0644 $(HEADERS)					$(DESTDIR)$(PREFIX)/include
-# 	$Q echo "[Install Dynamic Lib]"
-# 	$Q install -m 0755 -d						$(DESTDIR)$(PREFIX)/lib
-# 	$Q install -m 0755 libwiringPi.so.$(VERSION)			$(DESTDIR)$(PREFIX)/lib/libwiringPi.so.$(VERSION)
-# 	$Q ln -sf $(DESTDIR)$(PREFIX)/lib/libwiringPi.so.$(VERSION)	$(DESTDIR)/lib/libwiringPi.so
-# 	$Q $(LDCONFIG)
 
 .PHONY:	tags
 tags:	$(SRC)

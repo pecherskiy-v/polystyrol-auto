@@ -40,6 +40,7 @@ BINS	=	polystyrol
 all: $(BINS)
 
 $(BINS):	$(OBJECTS)
+	$Q $(MAKE) -C wiringPi
 	$Q echo [link]
 	$Q $(CC) -o $@ $(OBJECTS) $(LDFLAGS) $(LDLIBS)
 
@@ -50,6 +51,8 @@ $(BINS):	$(OBJECTS)
 clean:
 	$Q echo [Clean]
 	$Q rm -f $(OBJ) *~ core tags $(BINS)
+	$Q rm -f ./wiringPi/*.o
+	$Q rm -f ./wiringPi/*.d
 
 .PHONY:	install
 install: polystyrol

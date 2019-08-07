@@ -20,11 +20,11 @@ parts:
     makefile: Makefile
     source: .
     make-parameters: ["debug=1"]
-    after: [wiringpi]
+    # after: [wiringpi]
 
-  wiringpi:
-    plugin: make
-    makefile: Makefile
-    make-parameters: [DESTDIR=/usr]
-    source: .
-    source-subdir: wiringPi
+  # wiringpi:
+  #   plugin: make
+  #   makefile: Makefile
+  #   make-parameters: [DESTDIR=/usr]
+  #   source: .
+  #   source-subdir: wiringPi
