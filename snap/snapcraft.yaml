@@ -12,7 +12,6 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
   polystyrol:
-    command: echo 'ok'
     command: polystyrol
 
 parts:
