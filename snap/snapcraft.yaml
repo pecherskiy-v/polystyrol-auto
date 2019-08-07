@@ -3,7 +3,7 @@ base: core18
 architectures:
   - build-on: [arm64,armhf]
     run-on: [arm64,armhf]
-version: '0.1.1'
+version: '0.1.2'
 summary: Автоматизация полистирольной линии
 description: |
   Программное обеспечение для автоматизации лини по производству полистирола из гранул полистирола.
@@ -14,7 +14,6 @@ apps:
   polystyrol:
     command: echo 'ok'
     command: polystyrol
-    # command: /usr/local/sbin/polystyrol
 
 parts:
   polystyrol:
