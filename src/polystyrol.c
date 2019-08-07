@@ -55,8 +55,6 @@ void scanButton (int button)
 
 int main (void)
 {
-  int i ;
-
   printf ("Raspberry Pi Gertboard Button Test\n") ;
   printf ("Raspberry Pi blink\n") ;
 
@@ -70,8 +68,8 @@ int main (void)
   digitalWrite (LED_BUT, 0) ;
 
   // Setup the inputs
-  pinMode         (i, INPUT) ;
-  pullUpDnControl (i, PUD_UP) ;
+  pinMode         (BUTTOMM, INPUT) ;
+  pullUpDnControl (BUTTOMM, PUD_UP) ;
   leds [LED_BUT] = 0 ;
 
   for (;;)
