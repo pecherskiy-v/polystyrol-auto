@@ -17,6 +17,6 @@ apps:
 parts:
   polystyrol:
     plugin: make
-    makefile: all
+    makefile: Makefile
     source: ../
     make-parameters: ["debug=1"]
